@@ -1,6 +1,7 @@
-// lib/screens/profile_screen.dart
 import 'package:flutter/material.dart';
 import '../widgets/custom_nav_bar.dart';
+import 'settings_screen.dart';
+import 'case_history_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -20,7 +21,7 @@ class ProfileScreen extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               const Text(
-                'Officer Sri Dev',
+                'Officer Durai Singam',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -59,28 +60,50 @@ class ProfileScreen extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               _buildActionCard(
+                context,
                 'Case History',
                 'View your case handling history',
                 Icons.history,
                 Colors.blue,
+                () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const CaseHistoryScreen()),
+                  );
+                },
               ),
               _buildActionCard(
+                context,
                 'Settings',
                 'App preferences and notifications',
                 Icons.settings,
                 Colors.purple,
+                () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SettingsScreen()),
+                  );
+                },
               ),
               _buildActionCard(
+                context,
                 'Help & Support',
                 'Get help with using the app',
                 Icons.help,
                 Colors.orange,
+                () {
+                  _showHelpSupportDialog(context);
+                },
               ),
               _buildActionCard(
+                context,
                 'Department Info',
                 'View department details and contacts',
                 Icons.business,
                 Colors.green,
+                () {
+                  _showDepartmentInfoDialog(context);
+                },
               ),
               const SizedBox(height: 20),
               ElevatedButton.icon(
@@ -99,7 +122,6 @@ class ProfileScreen extends StatelessWidget {
       bottomNavigationBar: const CustomNavBar(currentIndex: 3),
     );
   }
-
 
   Widget _buildStatColumn(String label, String value) {
     return Column(
@@ -121,7 +143,14 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildActionCard(String title, String subtitle, IconData icon, Color color) {
+  Widget _buildActionCard(
+    BuildContext context,
+    String title,
+    String subtitle,
+    IconData icon,
+    Color color,
+    VoidCallback onTap,
+  ) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8),
       child: ListTile(
@@ -132,8 +161,82 @@ class ProfileScreen extends StatelessWidget {
         title: Text(title),
         subtitle: Text(subtitle),
         trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-        onTap: () {},
+        onTap: onTap, // Navigate when tapped
       ),
+    );
+  }
+
+  void _showHelpSupportDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Help & Support'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              ListTile(
+                leading: Icon(Icons.question_answer, color: Colors.orange),
+                title: Text('FAQs'),
+                subtitle: Text('Find answers to common questions.'),
+              ),
+              ListTile(
+                leading: Icon(Icons.email, color: Colors.blue),
+                title: Text('Contact Support'),
+                subtitle: Text('Email: support@isearchapp.com'),
+              ),
+              ListTile(
+                leading: Icon(Icons.phone, color: Colors.green),
+                title: Text('Call Support'),
+                subtitle: Text('Phone: +91 95782 12140'),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showDepartmentInfoDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Department Info'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              ListTile(
+                leading: Icon(Icons.account_balance, color: Colors.green),
+                title: Text('Department Name'),
+                subtitle: Text('Criminal Investigation Unit'),
+              ),
+              ListTile(
+                leading: Icon(Icons.location_on, color: Colors.red),
+                title: Text('Location'),
+                subtitle: Text('123 Police HQ, New York, USA'),
+              ),
+              ListTile(
+                leading: Icon(Icons.phone, color: Colors.blue),
+                title: Text('Emergency Contact'),
+                subtitle: Text('+91 80728 12151'),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

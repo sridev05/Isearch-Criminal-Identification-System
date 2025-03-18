@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/images/magnifier.png',
+              'assets/images/magnifier.png.jpg',
               height: 40,
               color: Colors.white,
             ),

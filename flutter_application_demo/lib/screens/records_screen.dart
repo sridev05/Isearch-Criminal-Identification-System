@@ -1,59 +1,271 @@
-// lib/screens/records_screen.dart
 import 'package:flutter/material.dart';
 import '../widgets/custom_nav_bar.dart';
 
-class RecordsScreen extends StatelessWidget {
+class RecordsScreen extends StatefulWidget {
   const RecordsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> criminalRecords = [
-      {
-        'id': 'CR001',
-        'name': 'John Doe',
-        'case': 'Criminal Case #1',
-        'date': '2025-02-18',
-        'status': 'Ongoing',
-        'details': 'Theft and burglary charges',
-        'lastUpdated': '2 hours ago',
-        'severity': 'High',
-        'location': 'New York, NY'
-      },
-      {
-        'id': 'CR002',
-        'name': 'Jane Smith',
-        'case': 'Criminal Case #2',
-        'date': '2025-02-17',
-        'status': 'Closed',
-        'details': 'Assault charges',
-        'lastUpdated': '1 day ago',
-        'severity': 'Medium',
-        'location': 'Los Angeles, CA'
-      },
-      {
-        'id': 'CR003',
-        'name': 'Robert Johnson',
-        'case': 'Criminal Case #3',
-        'date': '2025-02-16',
-        'status': 'Under Review',
-        'details': 'Fraud investigation',
-        'lastUpdated': '3 days ago',
-        'severity': 'High',
-        'location': 'Chicago, IL'
-      },
-      {
-        'id': 'CR004',
-        'name': 'Maria Garcia',
-        'case': 'Criminal Case #4',
-        'date': '2025-02-15',
-        'status': 'Pending',
-        'details': 'Cybercrime investigation',
-        'lastUpdated': '5 days ago',
-        'severity': 'Medium',
-        'location': 'Miami, FL'
-      },
-    ];
+  _RecordsScreenState createState() => _RecordsScreenState();
+}
 
+class _RecordsScreenState extends State<RecordsScreen> {
+  List<Map<String, dynamic>> criminalRecords = [
+    {
+      'id': 'CR001',
+      'name': 'John Doe',
+      'case': 'Criminal Case #1',
+      'date': '2025-02-18',
+      'status': 'Ongoing',
+      'details': 'Theft and burglary charges',
+      'lastUpdated': '2 hours ago',
+      'severity': 'High',
+      'location': 'New York, NY'
+    },
+   
+  {
+    'id': 'CR001',
+    'name': 'John Doe',
+    'case': 'Criminal Case #1',
+    'date': '2025-02-18',
+    'status': 'Ongoing',
+    'details': 'Theft and burglary charges',
+    'lastUpdated': '2 hours ago',
+    'severity': 'High',
+    'location': 'New York, NY'
+  },
+  {
+    'id': 'CR002',
+    'name': 'Alice Smith',
+    'case': 'Fraud Investigation',
+    'date': '2024-11-12',
+    'status': 'Closed',
+    'details': 'Identity theft and credit card fraud',
+    'lastUpdated': '1 day ago',
+    'severity': 'Medium',
+    'location': 'Los Angeles, CA'
+  },
+  {
+    'id': 'CR003',
+    'name': 'Michael Johnson',
+    'case': 'Assault and Battery',
+    'date': '2025-01-05',
+    'status': 'Ongoing',
+    'details': 'Physical assault in a bar fight',
+    'lastUpdated': '5 hours ago',
+    'severity': 'High',
+    'location': 'Chicago, IL'
+  },
+  {
+    'id': 'CR004',
+    'name': 'Emma Brown',
+    'case': 'Cybercrime Investigation',
+    'date': '2024-12-20',
+    'status': 'Pending Trial',
+    'details': 'Hacking into corporate servers',
+    'lastUpdated': '3 days ago',
+    'severity': 'Critical',
+    'location': 'San Francisco, CA'
+  },
+  {
+    'id': 'CR005',
+    'name': 'David Wilson',
+    'case': 'Drug Possession',
+    'date': '2023-09-14',
+    'status': 'Sentenced',
+    'details': 'Illegal drug distribution',
+    'lastUpdated': '1 month ago',
+    'severity': 'High',
+    'location': 'Miami, FL'
+  },
+  {
+    'id': 'CR006',
+    'name': 'Sophia Taylor',
+    'case': 'Domestic Violence',
+    'date': '2024-05-28',
+    'status': 'Ongoing',
+    'details': 'Allegations of spousal abuse',
+    'lastUpdated': '2 weeks ago',
+    'severity': 'Medium',
+    'location': 'Houston, TX'
+  },
+  {
+    'id': 'CR007',
+    'name': 'Daniel Martinez',
+    'case': 'Arson Investigation',
+    'date': '2023-11-02',
+    'status': 'Under Investigation',
+    'details': 'Suspected involvement in a building fire',
+    'lastUpdated': '4 days ago',
+    'severity': 'Critical',
+    'location': 'Seattle, WA'
+  },
+  {
+    'id': 'CR008',
+    'name': 'Olivia Anderson',
+    'case': 'White Collar Crime',
+    'date': '2024-06-10',
+    'status': 'Closed',
+    'details': 'Embezzlement and tax evasion',
+    'lastUpdated': '6 months ago',
+    'severity': 'Medium',
+    'location': 'Boston, MA'
+  },
+  {
+    'id': 'CR009',
+    'name': 'James Thomas',
+    'case': 'Murder Trial',
+    'date': '2025-01-30',
+    'status': 'Awaiting Verdict',
+    'details': 'Accused of first-degree murder',
+    'lastUpdated': '12 hours ago',
+    'severity': 'Critical',
+    'location': 'Philadelphia, PA'
+  },
+  {
+    'id': 'CR010',
+    'name': 'Emily White',
+    'case': 'Robbery Case',
+    'date': '2024-08-17',
+    'status': 'Sentenced',
+    'details': 'Armed robbery at a convenience store',
+    'lastUpdated': '2 months ago',
+    'severity': 'High',
+    'location': 'Dallas, TX'
+  },
+
+  ];
+
+  void _deleteRecord(int index) {
+    setState(() {
+      criminalRecords.removeAt(index);
+    });
+  }
+
+  void _editRecord(int index) {
+    TextEditingController nameController =
+        TextEditingController(text: criminalRecords[index]['name']);
+    TextEditingController statusController =
+        TextEditingController(text: criminalRecords[index]['status']);
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Edit Record"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: nameController,
+                decoration: const InputDecoration(labelText: "Name"),
+              ),
+              TextField(
+                controller: statusController,
+                decoration: const InputDecoration(labelText: "Status"),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  criminalRecords[index]['name'] = nameController.text;
+                  criminalRecords[index]['status'] = statusController.text;
+                });
+                Navigator.pop(context);
+              },
+              child: const Text("Save"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _addNewRecord() {
+    TextEditingController nameController = TextEditingController();
+    TextEditingController caseController = TextEditingController();
+    TextEditingController dateController = TextEditingController();
+    TextEditingController statusController = TextEditingController();
+    TextEditingController detailsController = TextEditingController();
+    TextEditingController locationController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Add New Record"),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: nameController,
+                  decoration: const InputDecoration(labelText: "Name"),
+                ),
+                TextField(
+                  controller: caseController,
+                  decoration: const InputDecoration(labelText: "Case"),
+                ),
+                TextField(
+                  controller: dateController,
+                  decoration: const InputDecoration(labelText: "Date"),
+                ),
+                TextField(
+                  controller: statusController,
+                  decoration: const InputDecoration(labelText: "Status"),
+                ),
+                TextField(
+                  controller: detailsController,
+                  decoration: const InputDecoration(labelText: "Details"),
+                ),
+                TextField(
+                  controller: locationController,
+                  decoration: const InputDecoration(labelText: "Location"),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  criminalRecords.add({
+                    'id': 'CR00${criminalRecords.length + 1}',
+                    'name': nameController.text,
+                    'case': caseController.text,
+                    'date': dateController.text,
+                    'status': statusController.text,
+                    'details': detailsController.text,
+                    'location': locationController.text,
+                    'lastUpdated': 'Just now',
+                    'severity': 'Medium',
+                  });
+                });
+                Navigator.pop(context);
+              },
+              child: const Text("Add"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -78,26 +290,6 @@ class RecordsScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.blue.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Row(
-                  children: [
-                    Icon(Icons.info, color: Colors.blue),
-                    SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        'Showing all cases. Tap on a case for more details.',
-                        style: TextStyle(color: Colors.blue),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
               Expanded(
                 child: ListView.builder(
                   itemCount: criminalRecords.length,
@@ -107,7 +299,8 @@ class RecordsScreen extends StatelessWidget {
                       margin: const EdgeInsets.only(bottom: 12),
                       child: ExpansionTile(
                         leading: CircleAvatar(
-                          backgroundColor: _getStatusColor(record['status']).withOpacity(0.2),
+                          backgroundColor:
+                              _getStatusColor(record['status']).withOpacity(0.2),
                           child: Text(record['name'].substring(0, 1)),
                         ),
                         title: Text(record['name']),
@@ -123,7 +316,8 @@ class RecordsScreen extends StatelessWidget {
                                 _buildDetailRow('Location', record['location']),
                                 _buildDetailRow('Severity', record['severity']),
                                 _buildDetailRow('Details', record['details']),
-                                _buildDetailRow('Last Updated', record['lastUpdated']),
+                                _buildDetailRow(
+                                    'Last Updated', record['lastUpdated']),
                                 const SizedBox(height: 10),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
@@ -131,13 +325,13 @@ class RecordsScreen extends StatelessWidget {
                                     TextButton.icon(
                                       icon: const Icon(Icons.edit),
                                       label: const Text('Edit'),
-                                      onPressed: () {},
+                                      onPressed: () => _editRecord(index),
                                     ),
                                     const SizedBox(width: 8),
                                     TextButton.icon(
                                       icon: const Icon(Icons.delete),
                                       label: const Text('Delete'),
-                                      onPressed: () {},
+                                      onPressed: () => _deleteRecord(index),
                                     ),
                                   ],
                                 ),
@@ -155,7 +349,7 @@ class RecordsScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: _addNewRecord,
         child: const Icon(Icons.add),
       ),
       bottomNavigationBar: const CustomNavBar(currentIndex: 1),

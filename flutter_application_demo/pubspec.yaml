@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
+  image_picker: ^1.0.7
 
 dev_dependencies:
   flutter_test:
@@ -18,4 +19,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  
+  assets:
+    - assets/images/magnifier.png.jpg
