@@ -1,1 +1,2 @@
 # iSearch
+    This project focuses on developing a system, Isearch, for identifying criminals using face recognition technology. The system streamlines law enforcement efforts by providing near-instant identification capabilities through a mobile and web-based platform. By leveraging deep learning and computer vision, it ensures accurate recognition even with variations in facial features. Additionally, it integrates a centralized database to retrieve detailed criminal records, enhancing crime analysis and decision-making.
