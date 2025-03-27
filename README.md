@@ -26,5 +26,5 @@ Isearch is a **face recognition-based criminal identification system** that help
 
 ### **1️⃣ Clone the Repository**  
 ```sh
-git clone https://github.com/yourusername/Isearch.git
-cd Isearch
+git clone https://github.com/sridev05/iSearch.git
+cd iSearch
