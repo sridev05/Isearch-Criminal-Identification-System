@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../widgets/custom_nav_bar.dart';
 import 'settings_screen.dart';
 import 'case_history_screen.dart';
+import 'login_page.dart'; // Make sure this is your actual login screen
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -22,17 +24,11 @@ class ProfileScreen extends StatelessWidget {
               const SizedBox(height: 20),
               const Text(
                 'Officer Durai Singam',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const Text(
                 'Badge No: 12345',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey,
-                ),
+                style: TextStyle(fontSize: 16, color: Colors.grey),
               ),
               const SizedBox(height: 20),
               Container(
@@ -53,10 +49,7 @@ class ProfileScreen extends StatelessWidget {
               const SizedBox(height: 30),
               const Text(
                 'Quick Actions',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
               _buildActionCard(
@@ -107,7 +100,45 @@ class ProfileScreen extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: () async {
+                  print("🔐 Logout button pressed");
+
+                  final shouldLogout = await showDialog<bool>(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text("Logout"),
+                      content: const Text("Are you sure you want to logout?"),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, false),
+                          child: const Text("Cancel"),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, true),
+                          child: const Text("Logout"),
+                        ),
+                      ],
+                    ),
+                  );
+
+                  if (shouldLogout == true) {
+                    try {
+                      print("📡 Calling FirebaseAuth.instance.signOut()");
+                      await FirebaseAuth.instance.signOut();
+                      print("✅ Sign out successful");
+
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (_) => const LoginPage()),
+                        (route) => false,
+                      );
+                    } catch (e) {
+                      print("❌ Sign out failed: $e");
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Logout failed: ${e.toString()}")),
+                      );
+                    }
+                  }
+                },
                 icon: const Icon(Icons.logout),
                 label: const Text('Logout'),
                 style: ElevatedButton.styleFrom(
@@ -128,17 +159,9 @@ class ProfileScreen extends StatelessWidget {
       children: [
         Text(
           value,
-          style: const TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
-        Text(
-          label,
-          style: const TextStyle(
-            color: Colors.grey,
-          ),
-        ),
+        Text(label, style: const TextStyle(color: Colors.grey)),
       ],
     );
   }
@@ -161,7 +184,7 @@ class ProfileScreen extends StatelessWidget {
         title: Text(title),
         subtitle: Text(subtitle),
         trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-        onTap: onTap, // Navigate when tapped
+        onTap: onTap,
       ),
     );
   }
@@ -169,74 +192,70 @@ class ProfileScreen extends StatelessWidget {
   void _showHelpSupportDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Help & Support'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              ListTile(
-                leading: Icon(Icons.question_answer, color: Colors.orange),
-                title: Text('FAQs'),
-                subtitle: Text('Find answers to common questions.'),
-              ),
-              ListTile(
-                leading: Icon(Icons.email, color: Colors.blue),
-                title: Text('Contact Support'),
-                subtitle: Text('Email: support@isearchapp.com'),
-              ),
-              ListTile(
-                leading: Icon(Icons.phone, color: Colors.green),
-                title: Text('Call Support'),
-                subtitle: Text('Phone: +91 95782 12140'),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Close'),
+      builder: (context) => AlertDialog(
+        title: const Text('Help & Support'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            ListTile(
+              leading: Icon(Icons.question_answer, color: Colors.orange),
+              title: Text('FAQs'),
+              subtitle: Text('Find answers to common questions.'),
+            ),
+            ListTile(
+              leading: Icon(Icons.email, color: Colors.blue),
+              title: Text('Contact Support'),
+              subtitle: Text('Email: support@isearchapp.com'),
+            ),
+            ListTile(
+              leading: Icon(Icons.phone, color: Colors.green),
+              title: Text('Call Support'),
+              subtitle: Text('Phone: +91 95782 12140'),
             ),
           ],
-        );
-      },
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Close'),
+          ),
+        ],
+      ),
     );
   }
 
   void _showDepartmentInfoDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Department Info'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              ListTile(
-                leading: Icon(Icons.account_balance, color: Colors.green),
-                title: Text('Department Name'),
-                subtitle: Text('Criminal Investigation Unit'),
-              ),
-              ListTile(
-                leading: Icon(Icons.location_on, color: Colors.red),
-                title: Text('Location'),
-                subtitle: Text('123 Police HQ, New York, USA'),
-              ),
-              ListTile(
-                leading: Icon(Icons.phone, color: Colors.blue),
-                title: Text('Emergency Contact'),
-                subtitle: Text('+91 80728 12151'),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Close'),
+      builder: (context) => AlertDialog(
+        title: const Text('Department Info'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            ListTile(
+              leading: Icon(Icons.account_balance, color: Colors.green),
+              title: Text('Department Name'),
+              subtitle: Text('Criminal Investigation Unit'),
+            ),
+            ListTile(
+              leading: Icon(Icons.location_on, color: Colors.red),
+              title: Text('Location'),
+              subtitle: Text('123 Police HQ, New York, USA'),
+            ),
+            ListTile(
+              leading: Icon(Icons.phone, color: Colors.blue),
+              title: Text('Emergency Contact'),
+              subtitle: Text('+91 80728 12151'),
             ),
           ],
-        );
-      },
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Close'),
+          ),
+        ],
+      ),
     );
   }
 }

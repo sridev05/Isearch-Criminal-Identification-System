@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1024788827328",
+    "project_id": "isearch-a8d14",
+    "storage_bucket": "isearch-a8d14.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1024788827328:android:1343c841dbd92c5b277125",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_demo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAO5uVrtaQc-Vy2v0tdJWA9lc9YkZgmZBQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

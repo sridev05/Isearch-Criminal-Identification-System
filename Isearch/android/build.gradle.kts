@@ -1,3 +1,12 @@
+plugins {
+  // ...
+
+  // Add the dependency for the Google services Gradle plugin
+  classpath 'com.google.gms:google-services:4.3.10'
+
+
+}
+
 allprojects {
     repositories {
         google()
