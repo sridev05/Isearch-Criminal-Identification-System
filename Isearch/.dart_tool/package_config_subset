@@ -238,10 +238,6 @@ web
 3.4
 file:///C:/Users/ADMIN/AppData/Local/Pub/Cache/hosted/pub.dev/web-1.1.1/
 file:///C:/Users/ADMIN/AppData/Local/Pub/Cache/hosted/pub.dev/web-1.1.1/lib/
-isearch_app
-3.0
-file:///C:/Users/ADMIN/Desktop/iSearch/Isearch/
-file:///C:/Users/ADMIN/Desktop/iSearch/Isearch/lib/
 sky_engine
 3.7
 file:///C:/flutter%20SDK/flutter/bin/cache/pkg/sky_engine/
@@ -258,4 +254,8 @@ flutter_web_plugins
 3.7
 file:///C:/flutter%20SDK/flutter/packages/flutter_web_plugins/
 file:///C:/flutter%20SDK/flutter/packages/flutter_web_plugins/lib/
+isearch_app
+3.0
+file:///D:/projects/Isearch/
+file:///D:/projects/Isearch/lib/
 2

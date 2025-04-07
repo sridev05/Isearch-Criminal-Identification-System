@@ -1,10 +1,10 @@
-import 'dart:io';
 import 'dart:typed_data';
-import 'package:flutter/foundation.dart'; // Required for kIsWeb
+import 'dart:convert';
+import 'package:flutter/foundation.dart'; // For kIsWeb
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 import '../widgets/custom_nav_bar.dart';
-
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,42 +16,80 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final ImagePicker _picker = ImagePicker();
   XFile? _selectedImage;
-  Uint8List? _imageBytes; // For Web compatibility
-  Map<String, String>? _criminalDetails; // Holds criminal info
+  Uint8List? _imageBytes;
+  Map<String, dynamic>? _criminalDetails;
+  bool _isLoading = false;
+  String? _errorMessage;
 
-  // Function to pick an image
   Future<void> pickImage(ImageSource source) async {
-    final XFile? image = await _picker.pickImage(source: source);
-    if (image != null) {
-      if (kIsWeb) {
-        Uint8List bytes = await image.readAsBytes();
+    try {
+      final XFile? image = await _picker.pickImage(source: source);
+      if (image != null) {
+        final bytes = await image.readAsBytes();
         setState(() {
+          _selectedImage = image;
           _imageBytes = bytes;
-          _selectedImage = image;
-          _criminalDetails = null; // Reset details when new image is selected
-        });
-      } else {
-        setState(() {
-          _selectedImage = image;
           _criminalDetails = null;
+          _errorMessage = null;
         });
       }
+    } catch (e) {
+      setState(() {
+        _errorMessage = "Error selecting image: $e";
+      });
     }
   }
 
-  // Simulated function to fetch criminal details
-  void searchCriminal() {
-    // Here, you can call your API to fetch details from the database
+  Future<void> searchCriminal() async {
+    if (_selectedImage == null || _imageBytes == null) {
+      setState(() {
+        _errorMessage = "No image selected";
+      });
+      return;
+    }
+
     setState(() {
-      _criminalDetails = {
-        'Name': 'John Doe',
-        'Case Number': 'CR-20245',
-        'Crime': 'Bank Robbery',
-        'Status': 'Wanted',
-        'Last Seen': 'New York City',
-        'Description': 'A suspect in multiple bank heists. Considered armed and dangerous.',
-      };
+      _isLoading = true;
+      _errorMessage = null;
+      _criminalDetails = null;
     });
+
+    try {
+      final base64Image = base64Encode(_imageBytes!);
+
+      String apiUrl = kIsWeb
+          ? 'http://localhost:5000/identify'
+          : 'http://10.0.2.2:5000/identify';
+
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'image': base64Image}),
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = jsonDecode(response.body);
+        setState(() {
+          _criminalDetails = data['person_details'];
+          _isLoading = false;
+        });
+      } else if (response.statusCode == 404) {
+        setState(() {
+          _isLoading = false;
+          _errorMessage = "No matching criminal found in database";
+        });
+      } else {
+        setState(() {
+          _isLoading = false;
+          _errorMessage = "Error: ${response.statusCode} - ${response.body}";
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+        _errorMessage = "Connection error: $e";
+      });
+    }
   }
 
   @override
@@ -67,10 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const Center(
                   child: Text(
                     'Isearch',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -93,10 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const Center(
                   child: Text(
                     'Quick Actions',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -117,7 +149,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(height: 30),
 
-                // Display Selected Image
                 if (_selectedImage != null) ...[
                   const Text(
                     'Selected Image:',
@@ -125,18 +156,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(height: 10),
                   Center(
-                    child: kIsWeb
-                        ? Image.memory(_imageBytes!, height: 200)
-                        : Image.file(File(_selectedImage!.path), height: 200),
+                    child: Image.memory(_imageBytes!, height: 200),
                   ),
                   const SizedBox(height: 20),
-
-                  // Search Button
                   Center(
                     child: ElevatedButton.icon(
-                      onPressed: searchCriminal, // Call the function
-                      icon: const Icon(Icons.search),
-                      label: const Text('Search Criminal'),
+                      onPressed: _isLoading ? null : searchCriminal,
+                      icon: _isLoading
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(color: Colors.white),
+                            )
+                          : const Icon(Icons.search),
+                      label: Text(_isLoading ? 'Searching...' : 'Search Criminal'),
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                         backgroundColor: Colors.redAccent,
@@ -145,9 +178,32 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
 
+                if (_errorMessage != null) ...[
+                  const SizedBox(height: 20),
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.red.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.red.shade300),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.error_outline, color: Colors.red),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            _errorMessage!,
+                            style: const TextStyle(color: Colors.red),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+
                 const SizedBox(height: 30),
 
-                // Display Criminal Details
                 if (_criminalDetails != null) ...[
                   const Text(
                     'Criminal Details',
@@ -166,9 +222,27 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: _criminalDetails!.entries.map((entry) {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 8.0),
-                            child: Text(
-                              '${entry.key}: ${entry.value}',
-                              style: const TextStyle(fontSize: 16),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    "${entry.key}:",
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 3,
+                                  child: Text(
+                                    "${entry.value}",
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                              ],
                             ),
                           );
                         }).toList(),
@@ -180,10 +254,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 30),
                 const Text(
                   'Recent Activities',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 20),
                 ListView(
@@ -222,7 +293,13 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildActivityCard(String title, String description, String time, IconData icon, Color color) {
+  Widget _buildActivityCard(
+    String title,
+    String description,
+    String time,
+    IconData icon,
+    Color color,
+  ) {
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       child: ListTile(
@@ -232,7 +309,10 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         title: Text(title),
         subtitle: Text(description),
-        trailing: Text(time, style: TextStyle(color: Colors.grey[600], fontSize: 12)),
+        trailing: Text(
+          time,
+          style: TextStyle(color: Colors.grey[600], fontSize: 12),
+        ),
       ),
     );
   }

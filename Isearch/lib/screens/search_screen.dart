@@ -7,12 +7,12 @@ class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Map<String, String>> searchHistory = [
-      {"date": "06/01/2022", "name": "Vishnu", "image": "assets/images/user1.jpg"},
-      {"date": "12/31/2021", "name": "Jason Bourne", "image": "assets/images/user2.jpg"},
-      {"date": "11/30/2021", "name": "Jennifer Lopez", "image": "assets/images/user3.jpg"},
-      {"date": "10/01/2021", "name": "James Bond", "image": "assets/images/user4.jpg"},
-      {"date": "09/01/2021", "name": "Jackie Chan", "image": "assets/images/user5.jpg"},
-      {"date": "08/01/2021", "name": "Jesse Pinkman", "image": "assets/images/user6.jpg"},
+      {"date": "07/04/2025", "name": "Edward Lee Swift ", "image": "D:/projects/Isearch/assets/images/user1.jpg"},
+      {"date": "06/04/2025", "name": "Jaffer sadiq", "image": "assets/images/user2.jpg"},
+      {"date": "29/03/2025", "name": "Jennifer Lopez", "image": "assets/images/user3.jpg"},
+      {"date": "29/03/2025", "name": "James Bond", "image": "assets/images/user4.jpg"},
+      {"date": "26/03/2025", "name": "Jackie Chan", "image": "assets/images/user5.jpg"},
+      {"date": "22/03/2025", "name": "Jesse Pinkman", "image": "assets/images/user6.jpg"},
     ];
 
     return Scaffold(
