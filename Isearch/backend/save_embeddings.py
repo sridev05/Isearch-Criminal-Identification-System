@@ -31,8 +31,8 @@ for criminal_id in os.listdir(CRIMINAL_DB_PATH):
     except Exception as e:
         print(f"Error processing {criminal_id}: {str(e)}")
 
-# Save all embeddings
 with open(EMBEDDINGS_PATH, 'wb') as f:
     pickle.dump(embeddings, f)
 
-print(f"Saved {len(embeddings)} embeddings to {EMBEDDINGS_PATH}")
+print(f"Saved {len(embeddings)} embeddings to {EMBEDDINGS_PATH}") 
+# Save all embeddings
