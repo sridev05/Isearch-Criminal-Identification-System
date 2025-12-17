@@ -11,7 +11,6 @@ from deepface import DeepFace
 
 app = Flask(__name__)
 
-# Paths
 CSV_PATH = "D:/projects/Isearch/backend/csv_outputfin.csv"
 EMBEDDINGS_PATH = "D:/projects/Isearch/backend/criminal_embeddings.pkl"
 
@@ -31,6 +30,7 @@ try:
 except Exception as e:
     print(f"❌ Failed to load embeddings: {e}")
     precomputed_embeddings = []
+
 
 @app.route('/')
 def home():
