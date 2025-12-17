@@ -98,10 +98,8 @@ class FacenetAdapter:
                 np.linalg.norm(embedding1) * np.linalg.norm(embedding2)
             )
             
-            # Distance is 1 - similarity
             distance = 1 - cosine
             
-            # Verify based on threshold
             verified = distance <= threshold
             
             return {
