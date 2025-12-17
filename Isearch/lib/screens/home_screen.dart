@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import '../widgets/custom_nav_bar.dart';
 
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -40,14 +41,13 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Future<void> searchCriminal() async {
-    if (_selectedImage == null || _imageBytes == null) {
-      setState(() {
-        _errorMessage = "No image selected";
-      });
-      return;
-    }
 
+  class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
     setState(() {
       _isLoading = true;
       _errorMessage = null;
@@ -293,7 +293,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildActivityCard(
+  
+Widget _buildActivityCard(
     String title,
     String description,
     String time,
