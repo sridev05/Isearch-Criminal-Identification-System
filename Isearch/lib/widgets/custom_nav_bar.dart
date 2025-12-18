@@ -60,10 +60,12 @@ class CustomNavBar extends StatelessWidget {
           icon: Icon(Icons.search),
           label: 'Search',
         ),
-        BottomNavigationBarItem(
+
+         BottomNavigationBarItem(
           icon: Icon(Icons.person),
           label: 'Profile',
         ),
+        
       ],
     );
   }
