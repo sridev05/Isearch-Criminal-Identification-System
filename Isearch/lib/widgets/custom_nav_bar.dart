@@ -39,7 +39,9 @@ class CustomNavBar extends StatelessWidget {
           );
         }
       },
-      type: BottomNavigationBarType.fixed,
+
+
+       type: BottomNavigationBarType.fixed,
       backgroundColor: Colors.black,
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.grey,
@@ -48,6 +50,8 @@ class CustomNavBar extends StatelessWidget {
           icon: Icon(Icons.home),
           label: 'Home',
         ),
+
+        
         BottomNavigationBarItem(
           icon: Icon(Icons.insert_drive_file),
           label: 'Records',
