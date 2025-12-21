@@ -5,6 +5,7 @@ import pickle
 import numpy as np
 from deepface import DeepFace
 
+
 CRIMINAL_DB_PATH = "D:/projects/Isearch/backend/criminal_db"
 EMBEDDINGS_PATH = "D:/projects/Isearch/backend/criminal_embeddings.pkl"
 
