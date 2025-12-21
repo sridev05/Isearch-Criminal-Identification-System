@@ -10,8 +10,10 @@ class CaseHistoryScreen extends StatefulWidget {
 class _CaseHistoryScreenState extends State<CaseHistoryScreen> {
   int _selectedIndex = 0;
 
+
+  
   // List of screens for navigation
-  final List<Widget> _screens = [
+    final List<Widget> _screens = [
     CaseHistoryScreenContent(),
     Center(child: Text("Search Page", style: TextStyle(color: Colors.white))),
     Center(child: Text("Profile Page", style: TextStyle(color: Colors.white))),
