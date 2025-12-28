@@ -7,7 +7,7 @@ import 'screens/splash_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/login_page.dart';
 
-final _log = Logger('MainApp'); // ✅ Scoped logger
+final _log = Logger('MainApp'); 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
