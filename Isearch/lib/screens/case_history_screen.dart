@@ -97,7 +97,8 @@ class CaseDetailsScreen extends StatelessWidget {
   final int caseNumber;
   const CaseDetailsScreen({super.key, required this.caseNumber});
 
-  @override
+
+   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
