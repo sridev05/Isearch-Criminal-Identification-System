@@ -9,6 +9,8 @@ import pandas as pd
 import pickle
 from deepface import DeepFace
 
+
+
 app = Flask(__name__)
 
 CSV_PATH = "D:/projects/Isearch/backend/csv_outputfin.csv"
