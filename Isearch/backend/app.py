@@ -13,7 +13,7 @@ from deepface import DeepFace
 
 app = Flask(__name__)
 
-CSV_PATH = "D:/projects/Isearch/backend/csv_outputfin.csv"
+CSV_PATH = "D:/projects/Isearch/backend/csv_outputfin.csv "
 EMBEDDINGS_PATH = "D:/projects/Isearch/backend/criminal_embeddings.pkl"
 
 # Load criminal metadata
